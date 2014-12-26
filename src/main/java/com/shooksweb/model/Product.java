@@ -1,7 +1,40 @@
 package com.shooksweb.model;
 
-/**
- * Created by Matthew Shooks on 12/24/2014.
- */
 public class Product {
+	private String productId;
+	private String name;
+	private Double price;
+	private Double comparePrice;
+
+	public String getProductId() {
+		return productId;
+	}
+
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
+	}
+
+	public Double getComparePrice() {
+		return comparePrice;
+	}
+
+	public void setComparePrice(Double comparePrice) {
+		this.comparePrice = comparePrice;
+	}
 }
