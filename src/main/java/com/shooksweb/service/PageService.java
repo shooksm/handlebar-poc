@@ -1,17 +1,23 @@
 package com.shooksweb.service;
 
 import com.shooksweb.model.Page;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Rob Whitaker on 1/5/2015.
  */
+
+@Service
 public class PageService {
 
-    private ArrayList<Page> pages = new ArrayList<>();
+    private Map<String, Page> pages = new HashMap<String, Page>();
 
-    protected void pageService() {
+    PageService() {
         Page productPage = new Page();
         productPage.setName("Product Page");
         productPage.setParent("What goes here?");
@@ -21,5 +27,11 @@ public class PageService {
         productPage.setHasHeader(true);
         productPage.setHasFooter(true);
         productPage.setHasNavigation(true);
+
+        pages.put("product", productPage);
+    }
+
+    public Page getPage(String page) {
+        return pages.get(page.toLowerCase());
     }
 }

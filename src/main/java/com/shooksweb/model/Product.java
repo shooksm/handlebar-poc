@@ -1,40 +1,49 @@
 package com.shooksweb.model;
 
 public class Product {
-	private String productId;
-	private String name;
-	private Double price;
-	private Double comparePrice;
+    private String productId;
+    private String name;
+    private Double price;
+    private Double comparePrice;
+    private String productImage;
 
-	public String getProductId() {
-		return productId;
-	}
+    public String getProductImage() {
+        return productImage;
+    }
 
-	public void setProductId(String productId) {
-		this.productId = productId;
-	}
+    public void setProductImage(String productImage) {
+        this.productImage = productImage;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getProductId() {
+        return productId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setProductId(String productId) {
+        this.productId = productId;
+    }
 
-	public Double getPrice() {
-		return price;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setPrice(Double price) {
-		this.price = price;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Double getComparePrice() {
-		return comparePrice;
-	}
+    public Double getPrice() {
+        return price;
+    }
 
-	public void setComparePrice(Double comparePrice) {
-		this.comparePrice = comparePrice;
-	}
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public Double getComparePrice() {
+        return comparePrice;
+    }
+
+    public void setComparePrice(Double comparePrice) {
+        this.comparePrice = comparePrice;
+    }
 }
