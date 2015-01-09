@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>handlebar.java POC</title>
+    <link rel="stylesheet" href="static/css/foundation.css"/>
+    <script src="static/js/vendor/modernizr.js"></script>
+    <script type="text/javascript"
+            src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript">
+        // todo: refactor to cache template instead of call for it on each click event
+        var productPartial, productListTemplate;
+
+        $(document).ready(function () {
+            $("#nextPage").click(function () {
+                // todo: need to clean this up in to a deffered promise
+                $.ajax({
+                    url: '/handlebar-poc/static/hbs/product.hbs',
+                    cache: true,
+                    success: function (data) {
+                        productPartial = Handlebars.compile(data);
+                        Handlebars.registerPartial('product', productPartial);
+                        getProductListTemplate();
+                    }
+                });
+            });
+        });
+
+        function getProductListTemplate() {
+            $.ajax({
+                url: '/handlebar-poc/static/hbs/productList.hbs',
+                cache: true,
+                success: function (data) {
+                    productListTemplate = Handlebars.compile(data);
+                    getProductsByPage();
+                }
+            });
+        }
+
+        function getProductsByPage() {
+            $.ajax({
+                url: '/handlebar-poc/api/products/2',
+                success: function (data) {
+                    $('#productTemplate').html(productListTemplate(data));
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+
+<header class="row">
+    {{#if page.hasHeader}}
+        <div class="large-12 columns">
+            <h1>{{page.title}}</h1>
+
+            <p>{{page.description}}</p>
+        </div>
+    {{/if}}
+</header>
+
+<section class="row">
+    <div class="large-12 columns">
+        <div id="productTemplate">
+            {{> productList}}
+        </div>
+        <button id="previousPage" type="button">Previous Page</button>
+        <button id="nextPage" type="button">Next Page</button>
+    </div>
+</section>
+
+{{#if page.hasNavigation}}
+    <nav class="row">
+        <div class="large-12 columns">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Brands</a></li>
+                <li><a href="#">Checkout</a></li>
+            </ul>
+        </div>
+    </nav>
+{{/if}}
+
+<footer class="row">
+    {{#if page.hasFooter}}
+        <div class="large-12 columns">
+            &copy; Copyright 2014
+        </div>
+    {{/if}}
+</footer>
+
+<script src="static/js/vendor/jquery.js"></script>
+<script src="static/js/foundation.min.js"></script>
+<script src="static/js/vendor/handlebars.js"></script>
+<script>
+    $(document).foundation();
+</script>
+</body>
+</html>
