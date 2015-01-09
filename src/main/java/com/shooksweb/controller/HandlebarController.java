@@ -31,8 +31,13 @@ public class HandlebarController {
         TemplateLoader templateLoader = new ClassPathTemplateLoader("/WEB-INF/static/hbs", ".hbs");
         Handlebars handlebars = new Handlebars(templateLoader);
         Template template = handlebars.compile("index");
+        int numberOfProducts = productService.getNumberOfProducts();
+
         modelMap.addAttribute(productService.getProductsByPage(1));
+        modelMap.addAttribute("numberOfProducts", numberOfProducts);
         modelMap.addAttribute(pageService.getPage("product"));
+        modelMap.addAttribute("firstProduct", productService.getFirstProductForPage());
+        modelMap.addAttribute("lastProduct", productService.getLastProductForPage());
         return template.apply(modelMap);
     }
 }
