@@ -100,7 +100,7 @@
                 <configuration>
                     <additionalClasspathDirs>
                         <additionalClasspathDir>
-                            C:\dev\handlebar-poc\target\handlebar-poc
+                            ${project.build.directory}/../src/main/webapp
                         </additionalClasspathDir>
                     </additionalClasspathDirs>
                 </configuration>
