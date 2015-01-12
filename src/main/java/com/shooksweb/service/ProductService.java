@@ -12,6 +12,10 @@ public class ProductService {
     private int numberOfProducts;
     private int firstProductForPage;
     private int lastProductForPage;
+    private int numberOfPages;
+    private int nextPage;
+    private int previousPage;
+    private int currentPage;
 
     ProductService() {
         Random randomNumber = new Random();
@@ -29,6 +33,11 @@ public class ProductService {
             products.add(product);
         }
         setNumberOfProducts(products.size());
+        setNumberOfPages(calculateNumberOfPages());
+    }
+
+    private int calculateNumberOfPages() {
+        return (products.size() + 10 - 1) / 10;
     }
 
     public ArrayList<Product> getProducts() {
@@ -37,13 +46,16 @@ public class ProductService {
 
     public ArrayList<Product> getProductsByPage(int page) {
         int startIndex = (page - 1) * 10;
-        int endIndex = startIndex + 9;
-        setFirstProductForPage(startIndex + 1);
-        setLastProductForPage(endIndex + 1);
+        int endIndex = ((startIndex + 9) < getNumberOfProducts()) ? startIndex + 9 : getNumberOfProducts();
+        setFirstProductForPage(startIndex);
+        setLastProductForPage(endIndex);
         ArrayList<Product> out = new ArrayList<Product>();
         for (int i = startIndex; i <= endIndex; i++) {
-            out.add(products.get(i));
+            out.add(getProducts().get(i));
         }
+        setNextPage(page + 1);
+        setPreviousPage(page - 1);
+        setCurrentPage(page);
         return out;
     }
 
@@ -69,5 +81,37 @@ public class ProductService {
 
     public void setLastProductForPage(int lastProductForPage) {
         this.lastProductForPage = lastProductForPage;
+    }
+
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public void setNumberOfPages(int numberOfPages) {
+        this.numberOfPages = numberOfPages;
+    }
+
+    public int getNextPage() {
+        return nextPage;
+    }
+
+    public void setNextPage(int nextPage) {
+        this.nextPage = nextPage;
+    }
+
+    public int getPreviousPage() {
+        return previousPage;
+    }
+
+    public void setPreviousPage(int previousPage) {
+        this.previousPage = previousPage;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = currentPage;
     }
 }
