@@ -110,7 +110,7 @@
                         <div>Compare Price: ${product.price}</div>
                     </div>
                     <div class="columns large-6">
-                        <img src="${product.productImage}"></a>
+                        <img src="${product.productImage}"/>
                     </div>
                 </div>
                 <hr>
