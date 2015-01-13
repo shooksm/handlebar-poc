@@ -3,7 +3,7 @@
  */
 
 // todo: refactor to cache template instead of call for it on each click event
-var productPartial, productListTemplate;
+var productPartial, productListTemplate, paginationPartial;
 
 $(document).ready(function () {
     $("#nextPage").click(function () {
@@ -13,7 +13,9 @@ $(document).ready(function () {
             cache: true,
             success: function (data) {
                 productPartial = Handlebars.compile(data);
+                paginationPartial = Handlebars.compile(data);
                 Handlebars.registerPartial('product', productPartial);
+                Handlebars.registerPartial('pagination', paginationPartial);
                 getNextProductListTemplate();
             }
         });
