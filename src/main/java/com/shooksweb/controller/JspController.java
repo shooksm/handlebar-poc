@@ -28,7 +28,7 @@ public class JspController {
         model.addObject("firstProduct", productService.getFirstProductForPage());
         model.addObject("lastProduct", productService.getLastProductForPage());
         model.addObject("numberOfProducts", productService.getNumberOfProducts());
-        model.addObject("numberOfPages", productService.getNumberOfPages());
+        model.addObject("pages", productService.getPages());
         return model;
     }
 }

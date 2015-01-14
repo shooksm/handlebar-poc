@@ -41,9 +41,6 @@ public class AjaxHandlebarController {
     }
 
     private void addPageData(ModelAndView modelAndView) {
-        modelAndView.addObject("numberOfPages", productService.getNumberOfPages());
-        modelAndView.addObject("nextPage", productService.getNextPage());
-        modelAndView.addObject("previousPage", productService.getPreviousPage());
-        modelAndView.addObject("currentPage", productService.getCurrentPage());
+        modelAndView.addObject("pages", productService.getPages());
     }
 }

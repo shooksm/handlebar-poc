@@ -12,10 +12,7 @@ public class ProductService {
     private int numberOfProducts;
     private int firstProductForPage;
     private int lastProductForPage;
-    private int numberOfPages;
-    private int nextPage;
-    private int previousPage;
-    private int currentPage;
+    private ArrayList pages = new ArrayList<>();
 
     ProductService() {
         Random randomNumber = new Random();
@@ -33,11 +30,16 @@ public class ProductService {
             products.add(product);
         }
         setNumberOfProducts(products.size());
-        setNumberOfPages(calculateNumberOfPages());
+        setPages(calculateNumberOfPages());
     }
 
-    private int calculateNumberOfPages() {
-        return (products.size() + 10 - 1) / 10;
+    private ArrayList calculateNumberOfPages() {
+        int numPages = (products.size() + 10 - 1) / 10;
+        ArrayList returnList = new ArrayList();
+        for(int i = 0; i < numPages; i++) {
+            returnList.add(i);
+        }
+        return returnList;
     }
 
     public ArrayList<Product> getProducts() {
@@ -53,9 +55,6 @@ public class ProductService {
         for (int i = startIndex; i <= endIndex; i++) {
             out.add(getProducts().get(i));
         }
-        setNextPage(page + 1);
-        setPreviousPage(page - 1);
-        setCurrentPage(page);
         return out;
     }
 
@@ -83,35 +82,11 @@ public class ProductService {
         this.lastProductForPage = lastProductForPage;
     }
 
-    public int getNumberOfPages() {
-        return numberOfPages;
+    public ArrayList getPages() {
+        return pages;
     }
 
-    public void setNumberOfPages(int numberOfPages) {
-        this.numberOfPages = numberOfPages;
-    }
-
-    public int getNextPage() {
-        return nextPage;
-    }
-
-    public void setNextPage(int nextPage) {
-        this.nextPage = nextPage;
-    }
-
-    public int getPreviousPage() {
-        return previousPage;
-    }
-
-    public void setPreviousPage(int previousPage) {
-        this.previousPage = previousPage;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
+    public void setPages(ArrayList pages) {
+        this.pages = pages;
     }
 }

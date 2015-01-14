@@ -4,6 +4,7 @@ import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
 import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
 import com.github.jknack.handlebars.io.TemplateLoader;
+import com.shooksweb.helper.IndexHelper;
 import com.shooksweb.service.PageService;
 import com.shooksweb.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +33,14 @@ public class HandlebarController {
         Handlebars handlebars = new Handlebars(templateLoader);
         Template template = handlebars.compile("index");
         int numberOfProducts = productService.getNumberOfProducts();
+        handlebars.registerHelpers(IndexHelper.class);
 
         modelMap.addAttribute(productService.getProductsByPage(1));
         modelMap.addAttribute("numberOfProducts", numberOfProducts);
         modelMap.addAttribute(pageService.getPage("product"));
         modelMap.addAttribute("firstProduct", productService.getFirstProductForPage());
         modelMap.addAttribute("lastProduct", productService.getLastProductForPage());
-        modelMap.addAttribute("numberOfPages", productService.getNumberOfPages());
-        modelMap.addAttribute("nextPage", productService.getNextPage());
-        modelMap.addAttribute("previousPage", productService.getPreviousPage());
+        modelMap.addAttribute("pages", productService.getPages());
 
         return template.apply(modelMap);
     }
