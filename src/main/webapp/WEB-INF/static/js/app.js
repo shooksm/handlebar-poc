@@ -3,34 +3,23 @@
  */
 
 // todo: refactor to cache template instead of call for it on each click event
-var productPartial, productListTemplate, paginationPartial;
+var productPartial, productListTemplate, requestedPage;
 
 $(document).ready(function () {
-    $("#nextPage").click(function () {
+    $(".pagination a").click(function () {
+        requestedPage = $(this).attr('data-action');
         // todo: need to clean this up in to a deffered promise
         $.ajax({
             url: '/handlebar-poc/static/hbs/product.hbs',
             cache: true,
             success: function (data) {
                 productPartial = Handlebars.compile(data);
-                paginationPartial = Handlebars.compile(data);
                 Handlebars.registerPartial('product', productPartial);
-                Handlebars.registerPartial('pagination', paginationPartial);
                 getNextProductListTemplate();
             }
         });
-    });
-    $("#previousPage").click(function () {
-        // todo: need to clean this up in to a deffered promise
-        $.ajax({
-            url: '/handlebar-poc/static/hbs/product.hbs',
-            cache: true,
-            success: function (data) {
-                productPartial = Handlebars.compile(data);
-                Handlebars.registerPartial('product', productPartial);
-                getPreviousProductListTemplate();
-            }
-        });
+        $("li").removeClass('current');
+        $(this).parent('li').addClass('current');
     });
 });
 
@@ -39,7 +28,6 @@ function getNextProductListTemplate() {
         url: '/handlebar-poc/static/hbs/productList.hbs',
         cache: true,
         success: function (data) {
-            $("html, body").animate({ scrollTop: 0 }, 200);
             productListTemplate = Handlebars.compile(data);
             getNextProductsByPage();
         }
@@ -47,29 +35,7 @@ function getNextProductListTemplate() {
 }
 
 function getNextProductsByPage() {
-    var productsURL = "/handlebar-poc/api/products/next";
-    $.ajax({
-        url: productsURL,
-        success: function (data) {
-            $('#productTemplate').html(productListTemplate(data));
-        }
-    });
-}
-
-function getPreviousProductListTemplate() {
-    $.ajax({
-        url: '/handlebar-poc/static/hbs/productList.hbs',
-        cache: true,
-        success: function (data) {
-            $("html, body").animate({ scrollTop: 0 }, 200);
-            productListTemplate = Handlebars.compile(data);
-            getPreviousProductsByPage();
-        }
-    });
-}
-
-function getPreviousProductsByPage() {
-    var productsURL = "/handlebar-poc/api/products/previous";
+    var productsURL = "/handlebar-poc/api/products/" + requestedPage ;
     $.ajax({
         url: productsURL,
         success: function (data) {

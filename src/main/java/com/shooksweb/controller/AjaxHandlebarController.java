@@ -22,20 +22,13 @@ public class AjaxHandlebarController {
     @Autowired
     ProductService productService;
 
-    @Autowired
-    PageService pageService;
-
-    boolean previousButtonDisabled, nextButtonDisabled;
-
-    @RequestMapping(value = "/{navigation}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{page}", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView getProductsByPage(@PathVariable("navigation") String navigation) {
+    public ModelAndView getProductsByPage(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
-        int page = (navigation.equals("next")) ? productService.getNextPage() : productService.getPreviousPage();
 
         addProductData(modelAndView, page);
         addPageData(modelAndView);
-        addDisabledButtonFlags(modelAndView);
 
         return modelAndView;
     }
@@ -52,28 +45,5 @@ public class AjaxHandlebarController {
         modelAndView.addObject("nextPage", productService.getNextPage());
         modelAndView.addObject("previousPage", productService.getPreviousPage());
         modelAndView.addObject("currentPage", productService.getCurrentPage());
-    }
-
-    private void addDisabledButtonFlags(ModelAndView modelAndView) {
-        setPreviousButtonDisabled((productService.getPreviousPage() < 1) ? true : false);
-        setNextButtonDisabled((productService.getNextPage() > productService.getNumberOfPages()) ? true : false);
-        modelAndView.addObject("previousButtonDisabled", isPreviousButtonDisabled());
-        modelAndView.addObject("nextButtonDisabled", isNextButtonDisabled());
-    }
-
-    public boolean isPreviousButtonDisabled() {
-        return previousButtonDisabled;
-    }
-
-    public void setPreviousButtonDisabled(boolean previousButtonDisabled) {
-        this.previousButtonDisabled = previousButtonDisabled;
-    }
-
-    public boolean isNextButtonDisabled() {
-        return nextButtonDisabled;
-    }
-
-    public void setNextButtonDisabled(boolean nextButtonDisabled) {
-        this.nextButtonDisabled = nextButtonDisabled;
     }
 }

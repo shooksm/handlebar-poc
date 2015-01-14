@@ -13,7 +13,7 @@
 
 <header class="row">
     {{#if page.hasHeader}}
-        <div class="large-12 columns">
+        <div class="large-12 columns pagination-centered">
             <h1>{{page.title}}</h1>
             <p>{{page.description}}</p>
         </div>
@@ -31,8 +31,6 @@
         <div id="productTemplate">
             {{> productList}}
         </div>
-        <button id="previousPage" type="button">Previous Page</button>
-        <button id="nextPage" type="button">Next Page</button>
     </div>
 </section>
 
