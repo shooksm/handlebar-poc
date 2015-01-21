@@ -1,14 +1,9 @@
 package com.shooksweb.controller;
 
-import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.cache.GuavaTemplateCache;
-import com.github.jknack.handlebars.cache.HighConcurrencyTemplateCache;
-import com.github.jknack.handlebars.io.*;
-import com.google.common.cache.Cache;
-import com.shooksweb.helper.IndexHelper;
 import com.shooksweb.service.PageService;
 import com.shooksweb.service.ProductService;
+import com.shooksweb.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -28,20 +23,15 @@ public class HandlebarController {
     @Autowired
     PageService pageService;
 
+    @Autowired
+    TemplateService templateService;
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public String index(ModelMap modelMap) throws IOException {
-        TemplateLoader templateLoader = new ClassPathTemplateLoader("/WEB-INF/static/hbs", ".hbs");
-//        Handlebars handlebars = new Handlebars(templateLoader);
-        Handlebars handlebars = new Handlebars(templateLoader)
-                .with(new HighConcurrencyTemplateCache());
-//        Cache<TemplateSource, Template> cache = null;
-//        Handlebars handlebars = new Handlebars(templateLoader)
-//                .with(new GuavaTemplateCache(cache));
-        Template template = handlebars.compile("index");
+        Template template = templateService.getTemplate("index");
 
         int numberOfProducts = productService.getNumberOfProducts();
-        handlebars.registerHelpers(IndexHelper.class);
 
         modelMap.addAttribute(productService.getProductsByPage(1));
         modelMap.addAttribute("numberOfProducts", numberOfProducts);

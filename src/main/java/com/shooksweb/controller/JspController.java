@@ -29,6 +29,7 @@ public class JspController {
         model.addObject("lastProduct", productService.getLastProductForPage());
         model.addObject("numberOfProducts", productService.getNumberOfProducts());
         model.addObject("pages", productService.getPages());
+        model.addObject("productPage", pageService.getPage("product"));
         return model;
     }
 }

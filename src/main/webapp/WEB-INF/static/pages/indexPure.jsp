@@ -12,18 +12,41 @@
 </head>
 <body>
 
-<header class="row">
-    <div class="large-12 columns">
-        <h1>This is the Product Page</h1>
-        <p>The Product Page is where you can view attributes of a product</p>
-    </div>
+<header class="row pagination-centered">
+    <c:if test="${productPage.hasHeader}">
+        <div class="large-12 columns">
+            <h1>${productPage.title}</h1>
+            <p>${productPage.description}</p>
+        </div>
+    </c:if>
 </header>
+
+<section class="row">
+    <div class="large-12 columns">
+        <div id="productPagination">
+            <div class="pagination-centered">
+                <ul class="pagination">
+                    <c:forEach var="page" items="${pages}" varStatus="pageCount">
+                        <c:choose>
+                            <c:when test="${pageCount.index eq '0'}">
+                                <li class="current"><a data-action="1">1</a></li>
+                            </c:when>
+                            <c:otherwise>
+                                <li><a data-action="${pageCount.index + 1}">${pageCount.index + 1}</a></li>
+                            </c:otherwise>
+                        </c:choose>
+                    </c:forEach>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
 
 <section class="row">
     <div class="large-12 columns">
         <div id="productTemplate">
             <div>
-                ${firstProduct} - ${lastProduct} of ${numberOfProducts}, ${numberOfPages} total pages
+                ${firstProduct} - ${lastProduct} of ${numberOfProducts}
             </div>
             <hr>
             <c:forEach var="product" items="${productList}" varStatus="productCount">
@@ -41,26 +64,28 @@
                 <hr>
             </c:forEach>
         </div>
-        <button id="previousPage" type="button">Previous Page</button>
-        <button id="nextPage" type="button">Next Page</button>
     </div>
 </section>
 
-<nav class="row">
-    <div class="large-12 columns">
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Shop</a></li>
-            <li><a href="#">Brands</a></li>
-            <li><a href="#">Checkout</a></li>
-        </ul>
-    </div>
-</nav>
+<c:if test="${productPage.hasNavigation}">
+    <nav class="row">
+        <div class="large-12 columns">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Shop</a></li>
+                <li><a href="#">Brands</a></li>
+                <li><a href="#">Checkout</a></li>
+            </ul>
+        </div>
+    </nav>
+</c:if>
 
 <footer class="row">
-    <div class="large-12 columns">
-        &copy; Copyright 2014
-    </div>
+    <c:if test="${productPage.hasFooter}">
+        <div class="large-12 columns">
+            &copy; Copyright 2014
+        </div>
+    </c:if>
 </footer>
 
 <script src="static/js/vendor/jquery.js"></script>
