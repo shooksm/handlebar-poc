@@ -1,11 +1,9 @@
 package com.shooksweb.controller;
 
-import com.github.jknack.handlebars.Handlebars;
 import com.github.jknack.handlebars.Template;
-import com.github.jknack.handlebars.io.ClassPathTemplateLoader;
-import com.github.jknack.handlebars.io.TemplateLoader;
 import com.shooksweb.service.PageService;
 import com.shooksweb.service.ProductService;
+import com.shooksweb.service.TemplateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,12 +23,14 @@ public class HandlebarController {
     @Autowired
     PageService pageService;
 
+    @Autowired
+    TemplateService templateService;
+
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
     public String index(ModelMap modelMap) throws IOException {
-        TemplateLoader templateLoader = new ClassPathTemplateLoader("/WEB-INF/static/hbs", ".hbs");
-        Handlebars handlebars = new Handlebars(templateLoader);
-        Template template = handlebars.compile("index");
+        Template template = templateService.getTemplate("index");
+
         int numberOfProducts = productService.getNumberOfProducts();
 
         modelMap.addAttribute(productService.getProductsByPage(1));
@@ -38,6 +38,8 @@ public class HandlebarController {
         modelMap.addAttribute(pageService.getPage("product"));
         modelMap.addAttribute("firstProduct", productService.getFirstProductForPage());
         modelMap.addAttribute("lastProduct", productService.getLastProductForPage());
+        modelMap.addAttribute("pages", productService.getPages());
+
         return template.apply(modelMap);
     }
 }

@@ -1,0 +1,11 @@
+<div class="pagination-centered">
+    <ul class="pagination">
+        {{#each pages}}
+            {{#if @first}}
+                <li class="current"><a data-action="1">1</a></li>
+            {{else}}
+                {{>pageLink}}
+            {{/if}}
+        {{/each}}
+    </ul>
+</div>

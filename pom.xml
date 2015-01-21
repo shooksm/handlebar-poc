@@ -62,6 +62,11 @@
             <version>${handlebars.java.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.github.jknack</groupId>
+            <artifactId>handlebars-guava-cache</artifactId>
+            <version>${handlebars.java.version}</version>
+        </dependency>
+        <dependency>
             <groupId>taglibs</groupId>
             <artifactId>standard</artifactId>
             <version>1.1.2</version>

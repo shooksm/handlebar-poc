@@ -22,19 +22,25 @@ public class AjaxHandlebarController {
     @Autowired
     ProductService productService;
 
-    @Autowired
-    PageService pageService;
-
     @RequestMapping(value = "/{page}", method = RequestMethod.GET)
     @ResponseBody
     public ModelAndView getProductsByPage(@PathVariable("page") int page) {
         ModelAndView modelAndView = new ModelAndView(new MappingJackson2JsonView());
 
+        addProductData(modelAndView, page);
+        addPageData(modelAndView);
+
+        return modelAndView;
+    }
+
+    private void addProductData(ModelAndView modelAndView, int page) {
         modelAndView.addObject(productService.getProductsByPage(page));
         modelAndView.addObject("firstProduct", productService.getFirstProductForPage());
         modelAndView.addObject("lastProduct", productService.getLastProductForPage());
         modelAndView.addObject("numberOfProducts", productService.getNumberOfProducts());
+    }
 
-        return modelAndView;
+    private void addPageData(ModelAndView modelAndView) {
+        modelAndView.addObject("pages", productService.getPages());
     }
 }

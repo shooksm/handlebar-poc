@@ -12,6 +12,7 @@ public class ProductService {
     private int numberOfProducts;
     private int firstProductForPage;
     private int lastProductForPage;
+    private ArrayList pages = new ArrayList<>();
 
     ProductService() {
         Random randomNumber = new Random();
@@ -29,6 +30,16 @@ public class ProductService {
             products.add(product);
         }
         setNumberOfProducts(products.size());
+        setPages(calculateNumberOfPages());
+    }
+
+    private ArrayList calculateNumberOfPages() {
+        int numPages = (products.size() + 10 - 1) / 10;
+        ArrayList returnList = new ArrayList();
+        for(int i = 0; i < numPages; i++) {
+            returnList.add(i);
+        }
+        return returnList;
     }
 
     public ArrayList<Product> getProducts() {
@@ -37,12 +48,12 @@ public class ProductService {
 
     public ArrayList<Product> getProductsByPage(int page) {
         int startIndex = (page - 1) * 10;
-        int endIndex = startIndex + 9;
-        setFirstProductForPage(startIndex + 1);
-        setLastProductForPage(endIndex + 1);
+        int endIndex = ((startIndex + 9) < getNumberOfProducts()) ? startIndex + 9 : getNumberOfProducts();
+        setFirstProductForPage(startIndex);
+        setLastProductForPage(endIndex);
         ArrayList<Product> out = new ArrayList<Product>();
         for (int i = startIndex; i <= endIndex; i++) {
-            out.add(products.get(i));
+            out.add(getProducts().get(i));
         }
         return out;
     }
@@ -69,5 +80,13 @@ public class ProductService {
 
     public void setLastProductForPage(int lastProductForPage) {
         this.lastProductForPage = lastProductForPage;
+    }
+
+    public ArrayList getPages() {
+        return pages;
+    }
+
+    public void setPages(ArrayList pages) {
+        this.pages = pages;
     }
 }
